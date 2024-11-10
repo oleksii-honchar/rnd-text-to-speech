@@ -1,0 +1,22 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "noEmit": false,
+    "outDir": "./dist",
+    "paths": {
+      "src/*": ["./src/*"],
+      "types": ["./src/types.d.ts"],
+      "package.json": ["./package.json"]
+    }
+  },
+  "include": ["./src/*"],
+  "exclude": [
+    "./node_modules",
+    "./dist",
+    "./docs",
+    "./coverage",
+    "./ops",
+    "./scripts"
+  ]
+}

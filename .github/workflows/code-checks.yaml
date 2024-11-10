@@ -1,0 +1,17 @@
+name: Code Checks
+
+on:
+  pull_request:
+
+jobs:
+  code-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+      - run: corepack enable
+      - run: corepack install --global pnpm@*
+      - run: pnpm install
+      - run: pnpm run ci

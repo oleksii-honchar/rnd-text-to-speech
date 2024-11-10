@@ -1,0 +1,11 @@
+{
+  "deployment": {
+    "containerName": "fastify-tmpl",
+    "imageName": "tuiteraz/fastify-tmpl"
+  },
+  "runtime": {
+    "environment": "development",
+    "logLevel": "debug",
+    "port": 9000
+  }
+}

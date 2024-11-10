@@ -1,0 +1,10 @@
+node_modules
+.github/
+.git/
+.gitignore
+Dockerfile
+Makefile
+README*
+*.code-workspace
+.gitlab-ci.yml
+ops/
