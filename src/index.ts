@@ -2,7 +2,7 @@ import pino from 'pino';
 
 import pkg from 'package.json';
 
-import { PlayhtVoices } from './speech-clients/playht-client';
+import { DeepgramVoices } from './speech-clients/deepgram-client';
 import { SpeechServices } from './speech-clients/speech-client-base';
 import { SpeechGenerator } from './speech-generator';
 
@@ -29,12 +29,12 @@ const speechGenerator = new SpeechGenerator(
   },
   {
     logger,
-    speechService: SpeechServices.Playht,
+    speechService: SpeechServices.Deepgram,
   },
 );
 
 try {
-  speechGenerator.generate({ chunks: [0], voice: PlayhtVoices.Autumn, speed: 0.8 });
+  speechGenerator.generate({ chunks: [0], voice: DeepgramVoices.Athena, speed: 0.8 });
 } catch (error) {
   logger.error(error);
 }
