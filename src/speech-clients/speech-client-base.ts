@@ -1,4 +1,5 @@
 import { Logger } from 'pino';
+import { SpeechVoice } from 'src/types';
 import { AudioBuffer } from '../lib/get-audio-buffer';
 
 export const SpeechServices = {
@@ -10,7 +11,7 @@ export type SpeechService = (typeof SpeechServices)[keyof typeof SpeechServices]
 
 export interface SpeechClientGenerateParams {
   text: string;
-  voice: string;
+  voice: SpeechVoice;
   speed?: number;
 }
 

@@ -2,7 +2,7 @@ module.exports = {
   arrowParens: 'avoid',
   bracketSpacing: true,
   plugins: ['prettier-plugin-organize-imports'],
-  printWidth: 90,
+  printWidth: 110,
   singleQuote: true,
   semi: true,
   tabWidth: 2,

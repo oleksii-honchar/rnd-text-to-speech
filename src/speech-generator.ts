@@ -3,8 +3,10 @@ import path from 'path';
 
 import { Logger } from 'pino';
 import { AudioBuffer } from './lib/get-audio-buffer';
+import { SessionData } from './session-data';
 import { getSpeechClient } from './speech-clients';
 import { SpeechClientBase, SpeechService } from './speech-clients/speech-client-base';
+import { SpeechVoice } from './types';
 
 export interface SpeechGeneratorParams {
   sourceFilePath: string;
@@ -17,7 +19,7 @@ export interface SpeechGeneratorOptions {
 
 export interface GenerateParams {
   chunks?: number[];
-  voice: string;
+  voice: SpeechVoice;
   speed?: number;
 }
 
@@ -28,6 +30,7 @@ export class SpeechGenerator {
   private source: string[] = [];
   private outputDir = '';
   private speechClient: SpeechClientBase;
+  private sessionData: SessionData;
 
   constructor(params: SpeechGeneratorParams, options: SpeechGeneratorOptions) {
     this.logger = options.logger.child({
@@ -40,24 +43,20 @@ export class SpeechGenerator {
       logger: this.logger,
     });
     if (!client) {
-      throw new Error(
-        `Failed to initialize speech client for service: ${this.options.speechService}`,
-      );
+      throw new Error(`Failed to initialize speech client for service: ${this.options.speechService}`);
     }
     this.speechClient = client;
 
-    this.outputDir = path.dirname(path.join(process.cwd(), this.params.sourceFilePath));
-    this.outputDir = path.join(this.outputDir, 'chunks');
+    const sessionDirPath = path.dirname(path.join(process.cwd(), this.params.sourceFilePath));
+    this.outputDir = path.join(sessionDirPath, 'chunks');
+    this.sessionData = new SessionData({ sessionDirPath });
 
     this.loadSource();
   }
 
   loadSource() {
     this.logger.info(`Loading source from '${this.params.sourceFilePath}'`);
-    const fileContent = fs.readFileSync(
-      path.join(process.cwd(), this.params.sourceFilePath),
-      'utf8',
-    );
+    const fileContent = fs.readFileSync(path.join(process.cwd(), this.params.sourceFilePath), 'utf8');
     this.source = fileContent.split('\n').map(line => line.trim());
     this.logger.info(`Loaded (${this.source.length}) lines from source file`);
   }
@@ -73,13 +72,28 @@ export class SpeechGenerator {
     }
 
     for (const chunkIdx of chunks) {
-      const chunkText = this.source[chunkIdx];
+      const chunkText = this.source[chunkIdx] || '';
+      const chunkFilePath = path.join(this.outputDir, `chunk-${chunkIdx}_${voice.name}_${speed}.wav`);
+
       logger.info(`Chunk (${chunkIdx}): "${chunkText}"`);
+
+      if (
+        this.sessionData.isChunkExists({
+          chunkText,
+          voiceId: voice.voiceId,
+          speed,
+          chunkFilePath,
+          speechService: this.options.speechService,
+        })
+      ) {
+        logger.info(`Chunk (${chunkIdx}) already generated`);
+        continue;
+      }
 
       let buffer: AudioBuffer;
       try {
         buffer = await this.speechClient.generate({
-          text: chunkText || '',
+          text: chunkText,
           voice,
           speed,
         });
@@ -88,11 +102,19 @@ export class SpeechGenerator {
         continue;
       }
 
-      const chunkFilePath = path.join(this.outputDir, `chunk-${chunkIdx}.wav`);
       await this.saveToFile(buffer, chunkFilePath);
+
+      this.sessionData.setChunkData({
+        chunkText,
+        chunkFilePath,
+        voiceId: voice.voiceId,
+        speed,
+        speechService: this.options.speechService,
+      });
 
       logger.info(`Generated speech for chunk (${chunkIdx})`);
     }
+    this.sessionData.saveToFile();
   }
 
   async saveToFile(buffer: AudioBuffer, outputPath: string) {

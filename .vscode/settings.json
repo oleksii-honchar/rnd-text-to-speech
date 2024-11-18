@@ -1,0 +1,19 @@
+// settings.json
+{
+  "editor.codeActionsOnSave": {
+    "source.sortImports": "explicit",
+    "source.fixAll": "explicit"
+  },
+  "eslint.enable": true,
+  "eslint.format.enable": true,
+  "eslint.options": {
+    "overrideConfigFile": "./eslint.config.js"
+  },
+  "eslint.run": "onType",
+  "eslint.useFlatConfig": true,
+  "eslint.validate": ["typescript"],
+  "prettier.configPath": "./.prettierrc.js",
+  "prettier.requireConfig": true,
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode"
+}
