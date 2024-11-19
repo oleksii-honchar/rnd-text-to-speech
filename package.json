@@ -50,7 +50,7 @@
   "devDependencies": {
     "@deepgram/sdk": "^3.9.0",
     "@dotenvx/dotenvx": "^1.22.0",
-    "@eslint/js": "^9.14.0",
+    "@eslint/js": "^9.15.0",
     "@faker-js/faker": "^9.2.0",
     "@tsconfig/node22": "22.0.0",
     "@tsconfig/recommended": "1.0.8",
