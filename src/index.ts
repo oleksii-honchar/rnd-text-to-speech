@@ -1,40 +1,38 @@
-import pino from 'pino';
-
-import pkg from 'package.json';
-
+import { getLogger } from './lib/get-logger';
+import speechGenerator, { SoundSignature } from './services/speech-generator';
 import { PlayhtVoices } from './speech-clients/playht-client';
 import { SpeechServices } from './speech-clients/speech-client-base';
-import { SpeechGenerator } from './speech-generator';
 
-const name = `${pkg.name}@${pkg.version}`;
-const logger = pino({
-  name,
-  transport: {
-    target: 'pino-pretty',
-    options: {
-      colorize: true,
-      translateTime: 'SYS:standard',
-      ignore: 'pid,hostname',
-    },
-  },
-  level: process.env.LOG_LEVEL || 'info',
-});
+const logger = getLogger();
 
 logger.info('Starting app');
 logger.info(`Working directory: '${process.cwd()}'`);
 
-const speechGenerator = new SpeechGenerator(
+const soundSignature: SoundSignature = {
+  speechService: SpeechServices.Playht,
+  voice: PlayhtVoices.Nova,
+  speed: 0.8,
+};
+// const soundSignature: SoundSignature = {
+//   speechService: SpeechServices.Playht,
+//   voice: PlayhtVoices.Autumn,
+//   speed: 0.8,
+// };
+
+speechGenerator.init(
   {
     sourceFilePath: './sessions/#1-hypnotherapy-session/source.txt',
   },
   {
-    logger,
-    speechService: SpeechServices.Playht,
+    soundSignature,
   },
 );
 
-try {
-  speechGenerator.generate({ chunks: [0], voice: PlayhtVoices.Autumn, speed: 0.8 });
-} catch (error) {
-  logger.error(error);
-}
+(async () => {
+  try {
+    await speechGenerator.generate({ chunks: [0, 1, 2], soundSignature });
+    await speechGenerator.glueChunks({ chunks: [0, 1, 2], soundSignature });
+  } catch (error) {
+    logger.error(error);
+  }
+})();

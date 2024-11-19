@@ -1,6 +1,8 @@
 import fs from 'fs';
 import path from 'path';
-import { SpeechService } from './speech-clients/speech-client-base';
+
+import { SpeechService } from 'src/speech-clients/speech-client-base';
+import { SoundSignature } from './speech-generator';
 
 export interface SessionDataParams {
   sessionDirPath: string;
@@ -51,5 +53,15 @@ export class SessionData {
     return this.session.chunks.some(c =>
       Object.entries(chunk).every(([key, value]) => c[key as keyof Chunk] === value),
     );
+  }
+
+  getChunkFilePath(chunkText: string, soundSignature: SoundSignature) {
+    return this.session.chunks.find(
+      c =>
+        c.chunkText === chunkText &&
+        c.speechService === soundSignature.speechService &&
+        c.voiceId === soundSignature.voice.voiceId &&
+        c.speed === soundSignature.speed,
+    )?.chunkFilePath;
   }
 }
