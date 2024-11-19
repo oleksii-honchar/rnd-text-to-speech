@@ -19,7 +19,7 @@ function set(object: Settable, path: string, value: unknown): void {
 
   for (let i = 0; i < keys.length - 1; i++) {
     const key = keys[i] as Key;
-    if (!(key! in current)) {
+    if (!(key in current)) {
       // Check if the next key is a number
       const nextKey = keys[i + 1] as Key;
       // @ts-expect-error - We know this is a valid StringIndex or array
