@@ -34,8 +34,8 @@ importers:
         specifier: ^3.9.0
         version: 3.9.0
       '@dotenvx/dotenvx':
-        specifier: ^1.22.0
-        version: 1.22.0
+        specifier: ^1.24.2
+        version: 1.24.2
       '@eslint/js':
         specifier: ^9.15.0
         version: 9.15.0
@@ -288,8 +288,8 @@ packages:
     resolution: {integrity: sha512-X/7JzoYjCObyEaPb2Dgnkwk2LwRe4bw0FJJCLdkjpnFfJCFgA9IWgRD8FEUI6/hp8dW/CqqXkGPA2Q3DIsVG8A==}
     engines: {node: '>=18.0.0'}
 
-  '@dotenvx/dotenvx@1.22.0':
-    resolution: {integrity: sha512-EO09sE4iHu/MuKSx1FKQwXHQZ50mF0O4KUnBa3Rrlhgdwv0byg53lDcOpWpbaeq/f8z0dJ1EdV6Su1rugVanug==}
+  '@dotenvx/dotenvx@1.24.2':
+    resolution: {integrity: sha512-6q1cZ9Ab3j2RlQv5cwkhpGDlKHy8eIOMfFue837gWt30MVQgvSberdOZpuX4oCggJQmaide3u8blF/JJqVuX+Q==}
     hasBin: true
 
   '@ecies/ciphers@0.2.1':
@@ -318,10 +318,6 @@ packages:
 
   '@eslint/eslintrc@3.2.0':
     resolution: {integrity: sha512-grOjVNN8P3hjJn/eIETF1wwd12DdnwFDoyceUJLYYdkpbwq3nLi+4fqrTAONx7XDALqlL220wC/RHSC/QTI/0w==}
-    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
-
-  '@eslint/js@9.14.0':
-    resolution: {integrity: sha512-pFoEtFWCPyDOl+C6Ift+wC7Ro89otjigCf5vcuWqWgqNSQbRrpjSvdeE6ofLz4dHmyxD5f7gIdGT4+p36L6Twg==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
   '@eslint/js@9.15.0':
@@ -910,10 +906,6 @@ packages:
 
   cross-fetch@4.0.0:
     resolution: {integrity: sha512-e4a5N8lVvuLgAWgnCrLr2PP0YyDOTHa9H/Rj54dirp61qXnNq46m82bRhNqIA5VccJtWBvPTFRV3TtvHUKPB1g==}
-
-  cross-spawn@7.0.3:
-    resolution: {integrity: sha512-iRDPJKUPVEND7dHPO8rkbOnPpyDygcDFtWjpeWNCgy8WP2rXcxXL8TskReQl6OrB2G7+UJrags1q15Fudc7G6w==}
-    engines: {node: '>= 8'}
 
   cross-spawn@7.0.6:
     resolution: {integrity: sha512-uV2QOWP2nWzsy2aMp8aRibhi9dlzF5Hgh5SHaB9OiTGEyDTiJJyx0uy51QXdyWbtAHNua4XJzUKca3OzKUd3vA==}
@@ -2485,7 +2477,7 @@ snapshots:
       - encoding
       - utf-8-validate
 
-  '@dotenvx/dotenvx@1.22.0':
+  '@dotenvx/dotenvx@1.24.2':
     dependencies:
       commander: 11.1.0
       dotenv: 16.4.5
@@ -2531,8 +2523,6 @@ snapshots:
       strip-json-comments: 3.1.1
     transitivePeerDependencies:
       - supports-color
-
-  '@eslint/js@9.14.0': {}
 
   '@eslint/js@9.15.0': {}
 
@@ -3249,12 +3239,6 @@ snapshots:
     transitivePeerDependencies:
       - encoding
 
-  cross-spawn@7.0.3:
-    dependencies:
-      path-key: 3.1.1
-      shebang-command: 2.0.0
-      which: 2.0.2
-
   cross-spawn@7.0.6:
     dependencies:
       path-key: 3.1.1
@@ -3417,7 +3401,7 @@ snapshots:
 
   execa@5.1.1:
     dependencies:
-      cross-spawn: 7.0.3
+      cross-spawn: 7.0.6
       get-stream: 6.0.1
       human-signals: 2.1.0
       is-stream: 2.0.1
