@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.0.1](https://github.com/oleksii-honchar/rnd-text-to-speech/compare/v1.0.0...v1.0.1) (2024-11-19)
+
+
+### Bug Fixes
+
+* fix:  ([8f57000](https://github.com/oleksii-honchar/rnd-text-to-speech/commit/8f570005b257ca1892b90fc0db0741b74f4cdafe))
+* fix:  ([3682041](https://github.com/oleksii-honchar/rnd-text-to-speech/commit/368204145041b3a9ec4a45af9ebaae7ee89c03e2))
+* fix:  ([ba62f3f](https://github.com/oleksii-honchar/rnd-text-to-speech/commit/ba62f3f6bf2032311ff310fc3a6b68568e1601b3))
+
 ## 1.0.0 (2024-11-18)
 
 
