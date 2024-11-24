@@ -6,7 +6,7 @@
     "outDir": "./dist",
     "paths": {
       "src/*": ["./src/*"],
-      "types": ["./src/types.d.ts"],
+      "types": ["src/speech-generator/types.d.ts"],
       "package.json": ["./package.json"]
     }
   },

@@ -1,7 +1,7 @@
 import { createClient } from '@deepgram/sdk';
 
 import { AudioBuffer, getAudioBuffer } from 'src/lib/get-audio-buffer';
-import { SpeechVoices } from 'src/types';
+import { SpeechVoices } from 'src/speech-generator/types';
 import {
   SpeechClientBase,
   SpeechClientGenerateParams,

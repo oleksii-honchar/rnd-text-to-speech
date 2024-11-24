@@ -1,6 +1,6 @@
 import { Logger } from 'pino';
-import { SpeechVoice } from 'src/types';
-import { AudioBuffer } from '../lib/get-audio-buffer';
+import { AudioBuffer } from 'src/lib/get-audio-buffer';
+import { SpeechVoice } from 'src/speech-generator/types';
 
 export const SpeechServices = {
   Deepgram: 'deepgram',

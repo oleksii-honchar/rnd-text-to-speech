@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 
 import { Logger } from 'pino';
-import { AudioBuffer } from './lib/get-audio-buffer';
+import { AudioBuffer } from 'src/lib/get-audio-buffer';
 import { SessionData } from './session-data';
 import { getSpeechClient } from './speech-clients';
 import { SpeechClientBase, SpeechService } from './speech-clients/speech-client-base';

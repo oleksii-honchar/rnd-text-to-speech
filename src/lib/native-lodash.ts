@@ -1,4 +1,4 @@
-import type { StringIndex } from 'types';
+import type { StringIndex } from 'src/speech-generator/types';
 
 function pick(object: StringIndex, keys: string[]) {
   return keys.reduce((obj, key) => {

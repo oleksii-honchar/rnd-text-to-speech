@@ -2,9 +2,9 @@ import pino from 'pino';
 
 import pkg from 'package.json';
 
-import { PlayhtVoices } from './speech-clients/playht-client';
-import { SpeechServices } from './speech-clients/speech-client-base';
-import { SpeechGenerator } from './speech-generator';
+import { PlayhtVoices } from './speech-generator/speech-clients/playht-client';
+import { SpeechServices } from './speech-generator/speech-clients/speech-client-base';
+import { SpeechGenerator } from './speech-generator/speech-generator';
 
 const name = `${pkg.name}@${pkg.version}`;
 const logger = pino({
@@ -17,7 +17,7 @@ const logger = pino({
       ignore: 'pid,hostname',
     },
   },
-  level: process.env.LOG_LEVEL || 'info',
+  level: process.env.LOG_LEVEL ?? 'info',
 });
 
 logger.info('Starting app');
