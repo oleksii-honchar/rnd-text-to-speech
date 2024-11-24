@@ -1,13 +1,13 @@
 import { Logger } from 'pino';
 import { AudioBuffer } from 'src/lib/get-audio-buffer';
-import { SpeechVoice } from 'src/speech-generator/types';
+import { SpeechVoice } from './types';
 
-export const SpeechServices = {
+export const SpeechProviders = {
   Deepgram: 'deepgram',
   Playht: 'playht',
 } as const;
 
-export type SpeechService = (typeof SpeechServices)[keyof typeof SpeechServices];
+export type SpeechProvider = (typeof SpeechProviders)[keyof typeof SpeechProviders];
 
 export interface SpeechClientGenerateParams {
   text: string;
@@ -20,20 +20,20 @@ export interface SpeechClientParams {
   userId?: string;
 }
 
-export interface SpeechClientOptions {
+export interface SpeechClientDependencies {
   logger: Logger;
 }
 
 export abstract class SpeechClientBase {
   protected logger: Logger;
   protected params: SpeechClientParams;
-  protected options: SpeechClientOptions;
+  protected dependencies: SpeechClientDependencies;
   client: unknown;
 
-  constructor(params: SpeechClientParams, options: SpeechClientOptions) {
+  constructor(params: SpeechClientParams, dependencies: SpeechClientDependencies) {
     this.params = params;
-    this.options = options;
-    this.logger = options.logger;
+    this.dependencies = dependencies;
+    this.logger = dependencies.logger;
   }
 
   abstract generate(params: SpeechClientGenerateParams): Promise<AudioBuffer>;

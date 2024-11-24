@@ -7,5 +7,14 @@
     "environment": "development",
     "logLevel": "debug",
     "port": 9000
+  },
+  "speechProviders": {
+    "playht": {
+      "apiKey": "playht-api-key",
+      "userId": "playht-user-id"
+    },
+    "deepgram": {
+      "apiKey": "deepgram-api-key"
+    }
   }
 }

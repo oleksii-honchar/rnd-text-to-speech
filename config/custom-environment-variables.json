@@ -1,5 +1,14 @@
 {
   "runtime": {
     "environment": "NODE_ENV"
+  },
+  "speechProviders": {
+    "playht": {
+      "apiKey": "PLAYHT_API_KEY",
+      "userId": "PLAYHT_USER_ID"
+    },
+    "deepgram": {
+      "apiKey": "DEEPGRAM_API_KEY"
+    }
   }
 }

@@ -1,13 +1,13 @@
 import { createClient } from '@deepgram/sdk';
 
 import { AudioBuffer, getAudioBuffer } from 'src/lib/get-audio-buffer';
-import { SpeechVoices } from 'src/speech-generator/types';
 import {
   SpeechClientBase,
+  SpeechClientDependencies,
   SpeechClientGenerateParams,
-  SpeechClientOptions,
   SpeechClientParams,
 } from './speech-client-base';
+import { SpeechVoices } from './types';
 
 export const DeepgramVoices = {
   Athena: {
@@ -21,8 +21,8 @@ export type DeepgramVoice = (typeof DeepgramVoices)[keyof typeof DeepgramVoices]
 export class DeepgramClient extends SpeechClientBase {
   override client: DeepgramClient;
 
-  constructor(params: SpeechClientParams, options: SpeechClientOptions) {
-    super(params, options);
+  constructor(params: SpeechClientParams, dependencies: SpeechClientDependencies) {
+    super(params, dependencies);
     this.client = createClient(params.apiKey) as unknown as DeepgramClient;
   }
 

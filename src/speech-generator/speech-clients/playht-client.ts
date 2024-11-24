@@ -1,13 +1,13 @@
 import * as PlayHT from 'playht';
 
 import { AudioBuffer, getAudioBuffer } from 'src/lib/get-audio-buffer';
-import { SpeechVoices } from 'src/speech-generator/types';
 import {
   SpeechClientBase,
+  SpeechClientDependencies,
   SpeechClientGenerateParams,
-  SpeechClientOptions,
   SpeechClientParams,
 } from './speech-client-base';
+import { SpeechVoices } from './types';
 
 export const PlayhtVoices = {
   Aurora: {
@@ -37,12 +37,12 @@ export type PlayhtVoiceEngine = (typeof PlayhtVoiceEngines)[keyof typeof PlayhtV
 export class PlayhtClient extends SpeechClientBase {
   override client: typeof PlayHT;
 
-  constructor(params: SpeechClientParams, options: SpeechClientOptions) {
-    super(params, options);
+  constructor(params: SpeechClientParams, dependencies: SpeechClientDependencies) {
+    super(params, dependencies);
     PlayHT.init({
       apiKey: this.params.apiKey,
       userId: this.params.userId!,
-      defaultVoiceId: PlayhtVoices.Autumn!.voiceId,
+      defaultVoiceId: PlayhtVoices.Autumn.voiceId,
       defaultVoiceEngine,
     });
     this.client = PlayHT;
