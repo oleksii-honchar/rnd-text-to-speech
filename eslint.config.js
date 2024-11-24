@@ -1,7 +1,6 @@
 const globals = require('globals');
 const eslint = require('@eslint/js');
 const tseslint = require('typescript-eslint');
-const eslintPrettier = require('eslint-plugin-prettier');
 
 module.exports = tseslint.config(
   {
@@ -19,12 +18,10 @@ module.exports = tseslint.config(
   eslint.configs.recommended,
   ...tseslint.configs.recommended,
   ...tseslint.configs.stylistic,
-  require('eslint-config-prettier'),
   {
     files: ['src/**/*.js', 'src/**/*.ts'],
     plugins: {
       'typescript-eslint': tseslint.plugin,
-      prettier: eslintPrettier,
     },
     languageOptions: {
       ecmaVersion: 'latest',
@@ -39,7 +36,7 @@ module.exports = tseslint.config(
       },
     },
     rules: {
-      'prettier/prettier': 'error',
+      'object-curly-spacing': 'off',
     },
   },
   {

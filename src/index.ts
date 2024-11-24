@@ -1,4 +1,4 @@
-import { getLogger } from './lib/get-logger';
+import { getLogger } from './lib/logger';
 import speechGenerator, { SoundSignature } from './services/speech-generator';
 import { PlayhtVoices } from './speech-clients/playht-client';
 import { SpeechServices } from './speech-clients/speech-client-base';
@@ -7,6 +7,8 @@ const logger = getLogger();
 
 logger.info('Starting app');
 logger.info(`Working directory: '${process.cwd()}'`);
+
+const test = () => { };
 
 const soundSignature: SoundSignature = {
   speechService: SpeechServices.Playht,
