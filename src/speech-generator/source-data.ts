@@ -14,12 +14,12 @@ export interface SourceDataDependencies {
 export class SourceData {
   private readonly logger: Logger;
   private readonly params: SourceDataParams;
-  source: string[];
+  sourceLines: string[];
 
   constructor(params: SourceDataParams, dependencies: SourceDataDependencies) {
     this.params = params;
     this.logger = dependencies.logger;
-    this.source = [];
+    this.sourceLines = [];
 
     this.loadSource();
   }
@@ -30,7 +30,7 @@ export class SourceData {
     });
     logger.info(`Loading source from '${this.params.sourceFilePath}'`);
     const fileContent = fs.readFileSync(path.join(process.cwd(), this.params.sourceFilePath), 'utf8');
-    this.source = fileContent.split('\n').map(line => line.trim());
-    logger.info(`Loaded (${this.source.length}) lines from source file`);
+    this.sourceLines = fileContent.split('\n').map(line => line.trim());
+    logger.info(`Loaded (${this.sourceLines.length}) lines from source file`);
   }
 }

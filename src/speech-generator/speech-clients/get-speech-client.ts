@@ -13,13 +13,13 @@ interface SpeechProvidersConfig {
   playht: SpeechClientParams;
 }
 
-const speechProviders = config.get<SpeechProvidersConfig>('speechProviders');
+const speechProvidersConfig = config.get<SpeechProvidersConfig>('speechProviders');
 
-export const getSpeechClient = (service: SpeechProvider, dependencies: SpeechClientDependencies) => {
-  switch (service) {
+export const getSpeechClient = (speechProvider: SpeechProvider, dependencies: SpeechClientDependencies) => {
+  switch (speechProvider) {
     case SpeechProviders.Deepgram:
-      return new DeepgramClient(speechProviders.deepgram, dependencies);
+      return new DeepgramClient(speechProvidersConfig.deepgram, dependencies);
     case SpeechProviders.Playht:
-      return new PlayhtClient(speechProviders.playht, dependencies);
+      return new PlayhtClient(speechProvidersConfig.playht, dependencies);
   }
 };

@@ -1,9 +1,5 @@
 import { logger } from './lib/logger';
-import { getSpeechGenerator } from './speech-generator/get-speech-generator';
-
-import { PlayhtVoices } from './speech-generator/speech-clients/playht-client';
-import { SpeechProviders } from './speech-generator/speech-clients/speech-client-base';
-import { SoundSignature } from './speech-generator/types';
+import { getSpeechGenerator, PlayhtVoices, SoundSignature, SpeechProviders } from './speech-generator';
 
 logger.info('Starting app');
 logger.info(`Working directory: '${process.cwd()}'`);
@@ -29,7 +25,7 @@ const speechGenerator = getSpeechGenerator({
 (async () => {
   try {
     await speechGenerator.generate({ chunksIndexes: [0, 1, 2] });
-    // await speechGenerator.glueChunks({ chunksIndexes: [0, 1, 2] });
+    await speechGenerator.assemble({ chunksIndexes: [0, 1, 2] });
   } catch (error) {
     logger.error(error);
   }

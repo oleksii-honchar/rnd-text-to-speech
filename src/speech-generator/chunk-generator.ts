@@ -9,8 +9,8 @@ import { AudioBuffer } from 'src/lib/get-audio-buffer';
 import { SpeechClientBase } from './speech-clients';
 
 export interface GenerateChunksParams {
-  chunksIndexes?: number[];
-  source: string[];
+  chunksIndexes: number[];
+  sourceLines: string[];
 }
 
 export interface ChunkGeneratorParams {
@@ -37,7 +37,7 @@ export class ChunkGenerator {
     this.dependencies = dependencies;
   }
 
-  async generate({ chunksIndexes = [], source }: GenerateChunksParams) {
+  async generate({ chunksIndexes = [], sourceLines }: GenerateChunksParams) {
     const logger = this.logger.child({
       method: 'generate',
     });
@@ -48,11 +48,11 @@ export class ChunkGenerator {
     }
 
     if (chunksIndexes.length === 0) {
-      chunksIndexes = source.map((_, idx) => idx);
+      chunksIndexes = sourceLines.map((_, idx) => idx);
     }
 
     for (const chunkIdx of chunksIndexes) {
-      const chunkText = source[chunkIdx] ?? '';
+      const chunkText = sourceLines[chunkIdx] ?? '';
       const chunkFilePath = path.join(
         this.params.outputDir,
         `chunk-${chunkIdx}_${this.params.soundSignature.voice.name}_${this.params.soundSignature.speed}.wav`,
