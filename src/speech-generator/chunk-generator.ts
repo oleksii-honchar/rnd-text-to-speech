@@ -47,6 +47,10 @@ export class ChunkGenerator {
       logger.info(`Created output directory: ${this.params.outputDir}`);
     }
 
+    if (chunksIndexes.length === 0) {
+      chunksIndexes = source.map((_, idx) => idx);
+    }
+
     for (const chunkIdx of chunksIndexes) {
       const chunkText = source[chunkIdx] ?? '';
       const chunkFilePath = path.join(
@@ -81,7 +85,7 @@ export class ChunkGenerator {
         continue;
       }
 
-      await this.saveToFile(buffer, chunkFilePath);
+      await this.saveAudioToFile(buffer, chunkFilePath);
 
       this.dependencies.sessionData.setChunkData({
         chunkText,
@@ -96,7 +100,7 @@ export class ChunkGenerator {
     this.dependencies.sessionData.saveToFile();
   }
 
-  async saveToFile(buffer: AudioBuffer, outputPath: string) {
+  async saveAudioToFile(buffer: AudioBuffer, outputPath: string) {
     const logger = this.logger.child({
       method: 'saveToFile',
     });
