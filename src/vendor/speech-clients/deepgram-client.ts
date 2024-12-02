@@ -1,12 +1,8 @@
 import { createClient } from '@deepgram/sdk';
+import { Logger } from '@nestjs/common';
 
 import { AudioBuffer, getAudioBuffer } from 'src/lib/get-audio-buffer';
-import {
-  SpeechClientBase,
-  SpeechClientDependencies,
-  SpeechClientGenerateParams,
-  SpeechClientParams,
-} from './speech-client-base';
+import { SpeechClientBase, SpeechClientGenerateParams, SpeechClientParams } from './speech-client-base';
 import { SpeechVoices } from './types';
 
 export const DeepgramVoices = {
@@ -19,10 +15,11 @@ export const DeepgramVoices = {
 export type DeepgramVoice = (typeof DeepgramVoices)[keyof typeof DeepgramVoices];
 
 export class DeepgramClient extends SpeechClientBase {
+  override readonly logger = new Logger(DeepgramClient.name);
   override client: DeepgramClient;
 
-  constructor(params: SpeechClientParams, dependencies: SpeechClientDependencies) {
-    super(params, dependencies);
+  constructor(params: SpeechClientParams) {
+    super(params);
     this.client = createClient(params.apiKey) as unknown as DeepgramClient;
   }
 
@@ -44,7 +41,7 @@ export class DeepgramClient extends SpeechClientBase {
 
     const headers = await response?.getHeaders();
     if (headers) {
-      this.logger.info({ headers }, 'Headers:');
+      this.logger.log({ headers }, 'Headers:');
     }
 
     return await getAudioBuffer(stream);

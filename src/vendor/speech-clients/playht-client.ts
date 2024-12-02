@@ -1,12 +1,8 @@
+import { Logger } from '@nestjs/common';
 import * as PlayHT from 'playht';
 
 import { AudioBuffer, getAudioBuffer } from 'src/lib/get-audio-buffer';
-import {
-  SpeechClientBase,
-  SpeechClientDependencies,
-  SpeechClientGenerateParams,
-  SpeechClientParams,
-} from './speech-client-base';
+import { SpeechClientBase, SpeechClientGenerateParams, SpeechClientParams } from './speech-client-base';
 import { SpeechVoices } from './types';
 
 export const PlayhtVoices = {
@@ -35,10 +31,11 @@ export type PlayhtVoice = (typeof PlayhtVoices)[keyof typeof PlayhtVoices];
 export type PlayhtVoiceEngine = (typeof PlayhtVoiceEngines)[keyof typeof PlayhtVoiceEngines];
 
 export class PlayhtClient extends SpeechClientBase {
+  override readonly logger = new Logger(PlayhtClient.name);
   override client: typeof PlayHT;
 
-  constructor(params: SpeechClientParams, dependencies: SpeechClientDependencies) {
-    super(params, dependencies);
+  constructor(params: SpeechClientParams) {
+    super(params);
     PlayHT.init({
       apiKey: this.params.apiKey,
       userId: this.params.userId!,

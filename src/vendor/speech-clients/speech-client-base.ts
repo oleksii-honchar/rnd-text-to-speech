@@ -1,4 +1,5 @@
-import { Logger } from 'pino';
+import { Logger } from '@nestjs/common';
+
 import { AudioBuffer } from 'src/lib/get-audio-buffer';
 import { SpeechVoice } from './types';
 
@@ -20,20 +21,13 @@ export interface SpeechClientParams {
   userId?: string;
 }
 
-export interface SpeechClientDependencies {
-  logger: Logger;
-}
-
 export abstract class SpeechClientBase {
-  protected logger: Logger;
+  readonly logger = new Logger(SpeechClientBase.name);
   protected params: SpeechClientParams;
-  protected dependencies: SpeechClientDependencies;
   client: unknown;
 
-  constructor(params: SpeechClientParams, dependencies: SpeechClientDependencies) {
+  constructor(params: SpeechClientParams) {
     this.params = params;
-    this.dependencies = dependencies;
-    this.logger = dependencies.logger;
   }
 
   abstract generate(params: SpeechClientGenerateParams): Promise<AudioBuffer>;

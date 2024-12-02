@@ -1,12 +1,7 @@
 import config from 'config';
 import { DeepgramClient } from './deepgram-client';
 import { PlayhtClient } from './playht-client';
-import {
-  SpeechClientDependencies,
-  SpeechClientParams,
-  SpeechProvider,
-  SpeechProviders,
-} from './speech-client-base';
+import { SpeechClientParams, SpeechProvider, SpeechProviders } from './speech-client-base';
 
 interface SpeechProvidersConfig {
   deepgram: SpeechClientParams;
@@ -15,11 +10,11 @@ interface SpeechProvidersConfig {
 
 const speechProvidersConfig = config.get<SpeechProvidersConfig>('speechProviders');
 
-export const getSpeechClient = (speechProvider: SpeechProvider, dependencies: SpeechClientDependencies) => {
+export const getSpeechClient = (speechProvider: SpeechProvider) => {
   switch (speechProvider) {
     case SpeechProviders.Deepgram:
-      return new DeepgramClient(speechProvidersConfig.deepgram, dependencies);
+      return new DeepgramClient(speechProvidersConfig.deepgram);
     case SpeechProviders.Playht:
-      return new PlayhtClient(speechProvidersConfig.playht, dependencies);
+      return new PlayhtClient(speechProvidersConfig.playht);
   }
 };

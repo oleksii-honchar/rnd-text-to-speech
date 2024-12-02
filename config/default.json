@@ -16,5 +16,8 @@
     "deepgram": {
       "apiKey": "deepgram-api-key"
     }
+  },
+  "composition": {
+    "newLinePauseMilliSeconds": 1000
   }
 }

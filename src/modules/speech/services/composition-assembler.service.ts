@@ -1,39 +1,30 @@
+import { Injectable, Logger } from '@nestjs/common';
 import ffmpeg from 'fluent-ffmpeg';
 import fs from 'fs';
 import path from 'path';
-
-import type { Logger } from 'src/lib/logger';
-import { StringIndex } from 'src/types';
-import { SessionData } from './session-data';
-import { SoundSignature } from './types';
-
-export interface CompositionAssemblerParams {
-  outputDir: string;
-}
-
-export interface CompositionAssemblerDependencies {
-  logger: Logger;
-  sessionData: SessionData;
-  soundSignature: SoundSignature;
-}
+import { SessionService } from '../../../common/session.service';
+import { SoundSignature, StringIndex } from '../../../types';
 
 export interface AssembleCompositionParams {
   chunksIndexes: number[];
   sourceLines: string[];
 }
 
-export class CompositionAssembler {
-  constructor(
-    private readonly params: CompositionAssemblerParams,
-    private readonly dependencies: CompositionAssemblerDependencies,
-  ) {}
+@Injectable()
+export class CompositionAssemblerService {
+  private readonly logger = new Logger(CompositionAssemblerService.name);
+  private outputDir = '';
+  private soundSignature!: SoundSignature;
+
+  constructor(private readonly session: SessionService) {}
+
+  initialize(sourceFilePath: string, soundSignature: SoundSignature) {
+    const sessionDirPath = path.dirname(path.join(process.cwd(), sourceFilePath));
+    this.outputDir = path.join(sessionDirPath, 'compositions');
+    this.soundSignature = soundSignature;
+  }
 
   async assemble(params: AssembleCompositionParams): Promise<void> {
-    const logger = this.dependencies.logger.child({
-      method: 'assemble',
-    });
-
-    const { sessionData, soundSignature } = this.dependencies;
     const { sourceLines } = params;
     let { chunksIndexes } = params;
 
@@ -41,11 +32,11 @@ export class CompositionAssembler {
       chunksIndexes = sourceLines.map((_, idx) => idx);
     }
 
-    logger.info({ chunksIndexes }, 'assemble composition for chunks');
+    this.logger.log({ chunksIndexes }, 'assemble composition for chunks');
     const chunkPaths: string[] = [];
 
     for (const chunkIdx of chunksIndexes) {
-      const chunkFilePath = sessionData.getChunkFilePath(sourceLines[chunkIdx]!, soundSignature);
+      const chunkFilePath = this.session.getChunkFilePath(sourceLines[chunkIdx]!, this.soundSignature);
       if (!chunkFilePath) {
         throw new Error(`Chunk (${chunkIdx}) not found`);
       }
@@ -53,23 +44,20 @@ export class CompositionAssembler {
       chunkPaths.push(chunkFilePath);
     }
 
-    if (!fs.existsSync(this.params.outputDir)) {
-      fs.mkdirSync(this.params.outputDir, { recursive: true });
-      logger.info(`Created output directory: ${this.params.outputDir}`);
+    if (!fs.existsSync(this.outputDir)) {
+      fs.mkdirSync(this.outputDir, { recursive: true });
+      this.logger.log(`Created output directory: ${this.outputDir}`);
     }
+
     const outputPath = path.join(
-      this.params.outputDir,
-      `composition-${soundSignature.voice.name}-${soundSignature.speed}.wav`,
+      this.outputDir,
+      `composition-${this.soundSignature.voice.name}-${this.soundSignature.speed}.wav`,
     );
-    logger.info('Concatenating audio chunks');
+    this.logger.log('Concatenating audio chunks');
     return this.executeCommand(chunkPaths, outputPath);
   }
 
-  executeCommand(chunkPaths: string[], outputPath: string): Promise<void> {
-    const logger = this.dependencies.logger.child({
-      method: 'executeCommand',
-    });
-
+  private executeCommand(chunkPaths: string[], outputPath: string): Promise<void> {
     return new Promise<void>((resolve, reject) => {
       const command = ffmpeg();
 
@@ -80,15 +68,15 @@ export class CompositionAssembler {
       command
         .outputOptions(['-loglevel verbose', '-stats', '-progress pipe:1'])
         .on('start', (commandLine: string) => {
-          logger.info({ commandLine }, 'FFmpeg process started');
+          this.logger.log({ commandLine }, 'FFmpeg process started');
         })
         .on('stderr', (stderrLine: string) => {
-          logger.debug({ ffmpeg: stderrLine }, 'FFmpeg:');
+          this.logger.debug({ ffmpeg: stderrLine }, 'FFmpeg:');
         })
         .on('progress', (progress: StringIndex) => {
-          logger.info(
+          this.logger.log(
             {
-              // @ts-expect-error covering ffmpeg types
+              // @ts-expect-error TS losts typing here
               percent: progress.percent?.toFixed(2),
               frames: progress.frames,
               fps: progress.currentFps,
@@ -99,18 +87,18 @@ export class CompositionAssembler {
           );
         })
         .on('error', (err: Error) => {
-          logger.error({ error: err }, 'Failed to concatenate audio chunks');
+          this.logger.error({ error: err }, 'Failed to concatenate audio chunks');
           reject(new Error('Failed to concatenate audio chunks'));
         })
         .on('end', () => {
-          logger.info(`Audio chunks concatenated to '${outputPath}'`);
+          this.logger.log(`Audio chunks concatenated to '${outputPath}'`);
           resolve();
         })
         .complexFilter([
           {
             filter: 'concat',
             options: {
-              n: chunkPaths.length, // number of input files
+              n: chunkPaths.length,
               v: '0',
               a: '1',
             },
