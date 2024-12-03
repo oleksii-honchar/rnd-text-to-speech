@@ -1,5 +1,23 @@
 # Changelog
 
+## [1.1.0](https://github.com/oleksii-honchar/rnd-text-to-speech/compare/v1.0.1...v1.1.0) (2024-12-03)
+
+
+### Features
+
+* add composition assembler ([53da746](https://github.com/oleksii-honchar/rnd-text-to-speech/commit/53da74660ee777b9cca1f828fda5200f88e3f92f))
+* add speech-client module ([74a4f2c](https://github.com/oleksii-honchar/rnd-text-to-speech/commit/74a4f2c195cb858a51cbf7da6f9e60da1933b21c))
+* destructure functionality by actors ([509d1a2](https://github.com/oleksii-honchar/rnd-text-to-speech/commit/509d1a20071339dc180ab13c244b977a6b143d6a))
+
+
+### Bug Fixes
+
+* fix:  ([017e84f](https://github.com/oleksii-honchar/rnd-text-to-speech/commit/017e84fff27b754343218dc55ec2740ccb0637c5))
+* fix:  ([d867f33](https://github.com/oleksii-honchar/rnd-text-to-speech/commit/d867f33f5b7d5a96ca24075be8cf082c14f9a24b))
+* fix format; remove redundant ([acf12a8](https://github.com/oleksii-honchar/rnd-text-to-speech/commit/acf12a8111c1caedc71a9991ad821046c079cad7))
+* split eslint with prettier ([16ea0e8](https://github.com/oleksii-honchar/rnd-text-to-speech/commit/16ea0e87c7e6e09329f4a38be17129bf97faf3e7))
+* types ([344f85e](https://github.com/oleksii-honchar/rnd-text-to-speech/commit/344f85ec7e28c05bdab5db07a2d5aab30d3884cd))
+
 ## [1.0.1](https://github.com/oleksii-honchar/rnd-text-to-speech/compare/v1.0.0...v1.0.1) (2024-11-19)
 
 
