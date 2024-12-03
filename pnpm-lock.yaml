@@ -30,8 +30,8 @@ importers:
         specifier: ^9.5.0
         version: 9.5.0
       playht:
-        specifier: ^0.13.0
-        version: 0.13.0
+        specifier: ^0.14.0
+        version: 0.14.0
       reflect-metadata:
         specifier: ^0.2.2
         version: 0.2.2
@@ -2058,8 +2058,8 @@ packages:
     resolution: {integrity: sha512-HRDzbaKjC+AOWVXxAU/x54COGeIv9eb+6CkDSQoNTt4XyWoIJvuPsXizxu/Fr23EiekbtZwmh1IcIG/l/a10GQ==}
     engines: {node: '>=8'}
 
-  playht@0.13.0:
-    resolution: {integrity: sha512-tbpyYXhS/MJqsy5v8h392JvUyzF4YbDVwyZC1E4T1N0B/QnAtUtpMo7MW8sFTekxKkZpgwa/PJlprlZ8zo6dKA==}
+  playht@0.14.0:
+    resolution: {integrity: sha512-jom/RKpwxh8OHPPjUL3UFXLuOmbKaSGwQ9dIECVB0CjlT7RW/d9n17jEBeM7GJAaOH77NerLKSRIydakKBJ3Sw==}
 
   plimit-lit@1.6.1:
     resolution: {integrity: sha512-B7+VDyb8Tl6oMJT9oSO2CW8XC/T4UcJGrwOVoNGwOQsQYhlpfajmrMj5xeejqaASq3V/EqThyOeATEOMuSEXiA==}
@@ -4904,7 +4904,7 @@ snapshots:
     dependencies:
       find-up: 4.1.0
 
-  playht@0.13.0:
+  playht@0.14.0:
     dependencies:
       '@grpc/grpc-js': 1.12.2
       axios: 1.7.7
