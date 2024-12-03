@@ -1,9 +1,9 @@
 import { Inject, Injectable } from '@nestjs/common';
 
-import { DeepgramClient } from './deepgram-client';
-import { PlayhtClient } from './playht-client';
 import { SpeechClientBase, SpeechProvider, SpeechProviders } from './speech-client-base';
 import { SPEECH_CLIENT_CONFIG } from './speech-client.provider';
+import { DeepgramClient } from './speech-deepgram-client';
+import { PlayhtClient } from './speech-playht-client';
 import type { SpeechProvidersConfig } from './types';
 
 @Injectable()
