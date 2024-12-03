@@ -1,4 +1,4 @@
-import { SpeechClientParams } from "./speech-client-base";
+import { SpeechClientParams } from './speech-client-base';
 
 export interface SpeechVoice {
   name: string;
