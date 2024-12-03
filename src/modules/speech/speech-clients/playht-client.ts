@@ -2,7 +2,8 @@ import { Logger } from '@nestjs/common';
 import * as PlayHT from 'playht';
 
 import { AudioBuffer, getAudioBuffer } from 'src/lib/get-audio-buffer';
-import { SpeechClientBase, SpeechClientGenerateParams, SpeechClientParams } from './speech-client-base';
+import type { SpeechClientGenerateParams, SpeechClientParams } from './speech-client-base';
+import { SpeechClientBase } from './speech-client-base';
 import { SpeechVoices } from './types';
 
 export const PlayhtVoices = {

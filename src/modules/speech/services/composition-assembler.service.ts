@@ -2,8 +2,9 @@ import { Injectable, Logger } from '@nestjs/common';
 import ffmpeg from 'fluent-ffmpeg';
 import fs from 'fs';
 import path from 'path';
-import { SessionService } from '../../../common/session.service';
-import { SoundSignature, StringIndex } from '../../../types';
+
+import { SessionService } from 'src/modules/session';
+import { SoundSignature, StringIndex } from 'src/types';
 
 export interface AssembleCompositionParams {
   chunksIndexes: number[];

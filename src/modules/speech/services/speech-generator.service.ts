@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import path from 'path';
 
-import { SessionService } from 'src/common/session.service';
+import { SessionService } from 'src/modules/session';
 import type { SoundSignature } from 'src/types';
 import { ChunkGeneratorService } from './chunk-generator.service';
 import { CompositionAssemblerService } from './composition-assembler.service';

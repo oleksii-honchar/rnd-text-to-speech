@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
+import { PlayhtVoices, SpeechProviders } from 'src/modules/speech/speech-clients';
 import type { CompositionConfig, SoundSignature } from 'src/types';
-import { PlayhtVoices, SpeechProviders } from 'src/vendor/speech-clients';
 import { SpeechGeneratorService } from './services/speech-generator.service';
 import { COMPOSITION_CONFIG } from './speech.providers';
 
@@ -14,7 +14,7 @@ export class SpeechService {
 
   async generateSpeech(sourceFilePath: string, chunksIndexes: number[]) {
     const soundSignature: SoundSignature = {
-      speechService: SpeechProviders.Playht,
+      speechProvider: SpeechProviders.Playht,
       voice: PlayhtVoices.Nova,
       speed: 0.8,
       composition: this.compositionConfig,

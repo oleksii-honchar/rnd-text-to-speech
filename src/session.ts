@@ -1,9 +1,8 @@
-import { Injectable } from '@nestjs/common';
 import fs from 'fs';
 import path from 'path';
 
-import type { SoundSignature } from 'src/types';
-import { SpeechProvider } from 'src/vendor/speech-clients';
+import { SpeechProvider } from './modules/speech/speech-clients';
+import { SoundSignature } from './modules/speech/speech-generator/types';
 
 export interface SessionDataParams {
   sessionDirPath: string;
@@ -21,24 +20,22 @@ export interface SessionData {
   chunks: Chunk[];
 }
 
-@Injectable()
-export class SessionService {
-  private sessionFilePath: string;
+export class Session {
+  private readonly params: SessionDataParams;
+  private readonly sessionFilePath: string;
   private session: SessionData;
 
-  constructor() {
-    this.sessionFilePath = '';
+  constructor(params: SessionDataParams) {
+    this.params = params;
+    this.sessionFilePath = path.join(this.params.sessionDirPath, 'session.json');
     this.session = {
       chunks: [],
     };
-  }
 
-  initialize(params: SessionDataParams) {
-    this.sessionFilePath = path.join(params.sessionDirPath, 'session.json');
     this.loadFromFile();
   }
 
-  private loadFromFile() {
+  loadFromFile() {
     const content = fs.readFileSync(this.sessionFilePath, 'utf8');
     this.session = JSON.parse(content);
   }
@@ -52,13 +49,13 @@ export class SessionService {
     this.session.chunks.push(chunkData);
   }
 
-  isChunkExists(chunk: Chunk): boolean {
+  isChunkExists(chunk: Chunk) {
     return this.session.chunks.some(c =>
       Object.entries(chunk).every(([key, value]) => c[key as keyof Chunk] === value),
     );
   }
 
-  getChunkFilePath(chunkText: string, soundSignature: SoundSignature): string | undefined {
+  getChunkFilePath(chunkText: string, soundSignature: SoundSignature) {
     return this.session.chunks.find(
       c =>
         c.chunkText === chunkText &&

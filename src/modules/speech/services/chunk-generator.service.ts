@@ -2,10 +2,10 @@ import { Injectable, Logger } from '@nestjs/common';
 import fs from 'fs';
 import path from 'path';
 
-import { SessionService } from 'src/common/session.service';
 import { AudioBuffer } from 'src/lib/get-audio-buffer';
+import { SessionService } from 'src/modules/session';
+import { SpeechClientBase, SpeechClientService } from 'src/modules/speech/speech-clients';
 import { SoundSignature } from 'src/types';
-import { getSpeechClient, SpeechClientBase } from 'src/vendor/speech-clients';
 
 export interface GenerateChunksParams {
   chunksIndexes: number[];
@@ -18,17 +18,24 @@ export class ChunkGeneratorService {
   private outputDir = '';
   private soundSignature!: SoundSignature;
   private speechClient!: SpeechClientBase;
+  private speechClientService: SpeechClientService;
 
-  constructor(private readonly session: SessionService) {}
+  constructor(
+    private readonly session: SessionService,
+    speechClientService: SpeechClientService,
+  ) {
+    this.speechClientService = speechClientService;
+  }
 
-  initialize(sourceFilePath: string, soundSignature: SoundSignature) {
+  async initialize(sourceFilePath: string, soundSignature: SoundSignature) {
     const sessionDirPath = path.dirname(path.join(process.cwd(), sourceFilePath));
     this.outputDir = path.join(sessionDirPath, 'chunks');
     this.soundSignature = soundSignature;
 
-    this.speechClient = getSpeechClient(soundSignature.speechService);
+    this.speechClientService.initialize(soundSignature.speechProvider);
+
     if (!this.speechClient) {
-      throw new Error(`Failed to initialize speech client for service: ${soundSignature.speechService}`);
+      throw new Error(`Failed to initialize speech client for service: ${soundSignature.speechProvider}`);
     }
   }
 
@@ -59,7 +66,7 @@ export class ChunkGeneratorService {
           voiceId: this.soundSignature.voice.voiceId,
           speed: this.soundSignature.speed,
           chunkFilePath,
-          speechService: this.soundSignature.speechService,
+          speechService: this.soundSignature.speechProvider,
         })
       ) {
         this.logger.log(`Chunk (${chunkIdx}) already generated`);
@@ -85,7 +92,7 @@ export class ChunkGeneratorService {
         chunkFilePath,
         voiceId: this.soundSignature.voice.voiceId,
         speed: this.soundSignature.speed,
-        speechService: this.soundSignature.speechService,
+        speechService: this.soundSignature.speechProvider,
       });
 
       this.logger.log(`Generated speech for chunk (${chunkIdx})`);
