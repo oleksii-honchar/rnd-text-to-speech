@@ -1,0 +1,31 @@
+model TextSource {
+  id          Int    @id @default(autoincrement())
+  sourceType  String // TextSourceType
+  content     Bytes
+  contentSize Int
+  status      String // TextSourceStatus
+
+  lines TextSourceLine[]
+}
+
+model TextSourceLine {
+  id          Int    @id @default(autoincrement())
+  index       Int
+  lineText    String
+  
+  sentences TextSourceLineSentence[]
+
+  textSourceId Int
+
+  textSource TextSource @relation(fields: [textSourceId], references: [id])
+}
+
+model TextSourceLineSentence {
+  id          Int    @id @default(autoincrement())
+  index       Int
+  sentenceText String
+
+  textSourceLineId Int
+
+  textSourceLine TextSourceLine @relation(fields: [textSourceLineId], references: [id])
+}

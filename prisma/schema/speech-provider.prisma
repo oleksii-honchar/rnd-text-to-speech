@@ -1,0 +1,31 @@
+model SpeechProvider {
+  id   Int    @id @default(autoincrement())
+  name String
+
+  voices SpeechProviderVoice[]
+
+  profiles SpeechProfile[]
+}
+
+model SpeechProviderVoice {
+  id         Int    @id @default(autoincrement())
+  name       String
+
+  providerId Int
+  voiceId    String
+
+  provider   SpeechProvider @relation(fields: [providerId], references: [id])
+  profiles    SpeechProfile[]
+}
+
+model SpeechProfile {
+  id         Int    @id @default(autoincrement())
+  name       String
+  speed      Float
+  
+  providerId Int
+  voiceId    Int
+
+  provider   SpeechProvider @relation(fields: [providerId], references: [id])
+  voice      SpeechProviderVoice @relation(fields: [voiceId], references: [id])
+}

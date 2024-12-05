@@ -36,6 +36,7 @@ erDiagram
 
     TextSourceLines {
         int id
+        int index
         string lineText
     }
 
@@ -43,7 +44,7 @@ erDiagram
 
     TextSourceLineSentences {
         int id
-        int order
+        int index
         string sentenceText
         int TextSourceLineId
     }
@@ -91,13 +92,4 @@ erDiagram
 
     Projects ||--o| AudioGenerationJobs : "uses"
     AudioGenerationJobs ||--|{ AudioChunks : "produces"
-
-    Jobs {
-        int id
-        int projectId
-        int sourceId
-        string[] sourceLines
-    }
-
-    Projects ||--o| Jobs : "has"
 ```

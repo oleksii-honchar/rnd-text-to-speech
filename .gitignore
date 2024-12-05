@@ -25,5 +25,6 @@ tsconfig.tsbuildinfo
 !jest.config.js
 !setup.js
 .eslintcache
+prisma/schema/dev.db
 
 sessions/*/**
